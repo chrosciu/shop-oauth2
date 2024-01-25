@@ -3,3 +3,7 @@ POST http://localhost:3000/realms/shop/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials&client_id=shop-client&client_secret=VwpcoDqxMdTJDTWJBIEs6aa3W7EvPjZz
+
+### Get shop info (requires auth token)
+GET http://localhost:8080/api/info
+Authorization: Bearer <token>

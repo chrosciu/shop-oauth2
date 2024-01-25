@@ -1,17 +1,17 @@
 ### Pierwsze uruchamienie kontenera z Keycloakiem
 
-`docker run -p 3000:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -v //$(PWD)/realms:/opt/keycloak/data/import  --name keycloak-shop quay.io/keycloak/keycloak:23.0.4 start-dev --import-realm`
+`docker run -p 3000:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -v //$(PWD)/realms:/opt/keycloak/data/import  --name shop-auth-server quay.io/keycloak/keycloak:23.0.4 start-dev --import-realm`
 
 - aby uniknąć ręcznego wyklikiwania danych w panelu administracyjnym Keycloak, importujemy plik JSON z realmem `shop`
 - plik znajduje się w katalogu `realms`
 - import wymaga podmontowania ww. katalogu `realms` do folderu `/opt/keycloak/data/import` na kontenerze i przekazania opcji `--import-realms` na starcie
 - w systemie Windows aby dało się podmontować folder o ścieżce relatywnej do bieżącej trzeba użyć konstrukcji z `$(PWD)` - żaden inny sposób nie działa 
-- nadajemy też kontenerowi nazwę `keycloak-shop`, tak aby łatwiej go było potem wystartować ponownie
+- nadajemy też kontenerowi nazwę `shop-auth-server`, tak aby łatwiej go było potem wystartować ponownie
 - w razie potrzeby Keycloak jest dostępny w przeglądarce pod adresem: 'http://localhost:3000'
 
 ### Ponowne uruchomienie kontenera
 
-`docker container start -i keycloak-shop`
+`docker container start -i shop-auth-server`
 
 - nie ma potrzeby przekazywać opcji jakie używaliśmy przy `docker run` - zostaną dołożone automatycznie
 - w związku z tym przy każdym uruchomieniu będzie następował próba reimportu realmu `shop` 
@@ -48,6 +48,6 @@ grant_type=client_credentials
 
 ### Usuwanie kontenera
 
-`docker container rm keycloak-shop`
+`docker container rm shop-auth-server`
   `
 
