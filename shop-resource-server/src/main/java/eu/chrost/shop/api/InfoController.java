@@ -7,8 +7,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/info")
 public class InfoController {
-    @GetMapping
-    public String getInfo() {
-        return "Example Shop v 1.0";
+    @GetMapping("/public")
+    public String getPublicInfo() {
+        return "Public info";
+    }
+
+    @GetMapping("/authorized")
+    public String getAuthorizedUserInfo() {
+        return "Authorized user info";
+    }
+
+    @GetMapping("/admin")
+    public String getAdminInfo() {
+        return "Admin info";
     }
 }

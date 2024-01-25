@@ -19,9 +19,11 @@
 
 ### Uzyskiwanie access tokena
 
-- razem z realmem `shop` importowany jest także client o id `client-shop` i secret `VwpcoDqxMdTJDTWJBIEs6aa3W7EvPjZz`
-- client jest stworzony dla flow typu `client_credentials`
-- jest to najprostszy flow w OAuth2 umożliwiający autentykację jednego serwera przed drugim; client autentykuje się w swoim imieniu a nie użytkownika
+- razem z realmem `shop` importowani są także:
+    - client o id `shop-client` i secret `VwpcoDqxMdTJDTWJBIEs6aa3W7EvPjZz` (ten klient nie ma przypisanej żadnej roli)
+    - client o id `shop-admin-client` i secret `Z4s4D0nbBo6HeLu5p0VSmZsP9bMY6nwE` (ten klient ma przypisaną rolę `admin`)
+- obaj klienci są stworzony dla flow typu `client_credentials`
+- jest to najprostszy flow w OAuth2 umożliwiający autentykację jednego serwera przed drugim; klient autentykuje się w swoim imieniu a nie użytkownika
 - aby uzyskać access token należy wykonać następujący request:
 
 ```http request

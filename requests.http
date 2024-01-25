@@ -1,9 +1,24 @@
-### Get access token
+### Get access token for shop-client
 POST http://localhost:3000/realms/shop/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials&client_id=shop-client&client_secret=VwpcoDqxMdTJDTWJBIEs6aa3W7EvPjZz
 
-### Get shop info (requires auth token)
-GET http://localhost:8080/api/info
+### Get access token for shop-admin-client
+POST http://localhost:3000/realms/shop/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id=shop-admin-client&client_secret=Z4s4D0nbBo6HeLu5p0VSmZsP9bMY6nwE
+
+
+### Get public info (does not require any token)
+GET http://localhost:8080/api/info/public
+
+### Get authorized user info (requires any valid token)
+GET http://localhost:8080/api/info/authorized
 Authorization: Bearer <token>
+
+### Get admin user info (requires valid token containing admin role)
+GET http://localhost:8080/api/info/admin
+Authorization: Bearer <token>
+
