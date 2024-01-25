@@ -1,0 +1,12 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:3000/realms/shop/protocol/openid-connect/certs"
+
+logging:
+  level:
+    org:
+      springframework:
+          security: TRACE
