@@ -14,8 +14,8 @@ grant_type=client_credentials&client_id=shop-admin-client&client_secret=Z4s4D0nb
 ### Get public info (does not require any token)
 GET http://localhost:8080/api/info/public
 
-### Get authorized user info (requires any valid token)
-GET http://localhost:8080/api/info/authorized
+### Get protected info (requires any valid token)
+GET http://localhost:8080/api/info/protected
 Authorization: Bearer <token>
 
 ### Get admin user info (requires valid token containing admin role)

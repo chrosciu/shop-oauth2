@@ -12,9 +12,9 @@ public class InfoController {
         return "Public info";
     }
 
-    @GetMapping("/authorized")
-    public String getAuthorizedUserInfo() {
-        return "Authorized user info";
+    @GetMapping("/protected")
+    public String getProtectedInfo() {
+        return "Protected info";
     }
 
     @GetMapping("/admin")
