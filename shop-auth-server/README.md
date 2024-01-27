@@ -17,7 +17,7 @@
 - w związku z tym przy każdym uruchomieniu będzie następował próba reimportu realmu `shop` 
 - nie będzie to jednak problemem - bo w przypadku już istniejącego realmu o takiej nazwie import jest pomijany
 
-### Uzyskiwanie access tokena
+### Uzyskiwanie access tokena - flow typu `client_credentials`
 
 - razem z realmem `shop` importowani są także:
     - client o id `shop-client` i secret `VwpcoDqxMdTJDTWJBIEs6aa3W7EvPjZz` (ten klient nie ma przypisanej żadnej roli)
@@ -46,6 +46,33 @@ grant_type=client_credentials
     "not-before-policy": 0,
     "scope": "email profile"
 }
+```
+
+### Uzyskiwanie access tokena - flow typu `authorization_code`
+
+- do uzyskiwania access tokena służy client `shop-users-client` (również on jest importowany razem z realmem `shop`)
+- dane ww. klienta - id: `shop-users-client`, secret: `CeV1MQi7fgbCYr6kkRKvqDEUC9KIFIiv`  
+- ww. klient jest stworzony dla flow typu `authorization_code` - w tym flow autoryzacji dla klienta dokonujemy w imieniu użytkownika
+- by umożliwić taką autoryzację importowani są również dwaj użytkownicy:
+    - `marcin` z hasłem `marcin` i przypisaną rolą `admin`
+    - `tomasz` z hasłem `tomasz` (bez żadnej przypisanej roli)
+- w tym flow pozyskiwanie access tokena przebiega w 3 krokach - najlepiej zrobić to za pomocą Postmana (choć ręcznie też oczywiście się da)
+- w kroku 1 żądamy od użytkownika aby sam zautoryzował się na keycloaku poprzez otwarcie następującego URL:
+`http://localhost:3000/realms/shop/protocol/openid-connect/auth?response_type=code&client_id=shop-users-client&redirect_uri=https%3A%2F%2Foauth.pstmn.io%2Fv1%2Fcallback`
+   - w tym przypadku jako redirect_uri używamy adresu z domeny `oauth.pstmn.io` - po otwraciu takiego URL w przeglądarce zostaniemy przekierowani do Postmana  
+- w kroku 2 jeżeli użytkownik zaloguje się poprawnie i zgodzi na przekazanie klientowi wskazanych uprawnień to wówczas zostanie przekierowany pod URL podany jako `request_uri` a dodatkowo jako query param otrzyma access code:
+`https://oauth.pstmn.io/v1/callback?session_state=30d81aa1-9276-4070-a42d-fa53da1e4a79&iss=http%3A%2F%2Flocalhost%3A3000%2Frealms%2Fshop&code=ab598248-13d0-4ecf-9010-b257525105ae.30d81aa1-9276-4070-a42d-fa53da1e4a79.83d6e774-ce22-4f56-bddb-3c7736f29378`
+- w kroku 3 aplikacja już bez pośrednictwa użytkownika wymienia uzyskany access code na access token za pomocą poniższego requestu:
+
+```http request
+POST http://localhost:3000/realms/shop/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&code=ab598248-13d0-4ecf-9010-b257525105ae.30d81aa1-9276-4070-a42d-fa53da1e4a79.83d6e774-ce22-4f56-bddb-3c7736f29378
+&redirect_uri=https://oauth.pstmn.io/v1/callback
+&client_id=shop-users-client
+&client_secret=CeV1MQi7fgbCYr6kkRKvqDEUC9KIFIiv
 ```
 
 ### Usuwanie kontenera
