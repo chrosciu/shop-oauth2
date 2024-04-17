@@ -6,12 +6,13 @@
 - plik znajduje się w katalogu `realms`
 - import wymaga podmontowania ww. katalogu `realms` do folderu `/opt/keycloak/data/import` na kontenerze i przekazania opcji `--import-realms` na starcie
 - w systemie Windows aby dało się podmontować folder o ścieżce relatywnej do bieżącej trzeba użyć konstrukcji z `$(PWD)` - żaden inny sposób nie działa 
+- w związku z tym ww. polecenie trzeba wykonać w katalogu `shop-auth-server`
 - nadajemy też kontenerowi nazwę `shop-auth-server`, tak aby łatwiej go było potem wystartować ponownie
 - w razie potrzeby Keycloak jest dostępny w przeglądarce pod adresem: 'http://localhost:3000'
 
 ### Ponowne uruchomienie kontenera
 
-`docker container start -i shop-auth-server`
+`docker container start -a shop-auth-server`
 
 - nie ma potrzeby przekazywać opcji jakie używaliśmy przy `docker run` - zostaną dołożone automatycznie
 - w związku z tym przy każdym uruchomieniu będzie następował próba reimportu realmu `shop` 
