@@ -6,7 +6,7 @@
 - plik znajduje się w katalogu `realms`
 - import wymaga podmontowania ww. katalogu `realms` do folderu `/opt/keycloak/data/import` na kontenerze i przekazania opcji `--import-realms` na starcie
 - w systemie Windows aby dało się podmontować folder o ścieżce relatywnej do bieżącej trzeba użyć konstrukcji z `$(PWD)` - żaden inny sposób nie działa 
-- w związku z tym ww. polecenie trzeba wykonać w katalogu `shop-auth-server`
+- **w związku z tym ww. polecenie trzeba wykonać w katalogu `shop-auth-server` !** - inaczej import nie zadziała 
 - nadajemy też kontenerowi nazwę `shop-auth-server`, tak aby łatwiej go było potem wystartować ponownie
 - w razie potrzeby Keycloak jest dostępny w przeglądarce pod adresem: 'http://localhost:3000'
 
