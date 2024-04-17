@@ -1,4 +1,4 @@
-package eu.chrost.shop.api;
+package eu.chrost.shop.info;
 
 import eu.chrost.shop.config.KeycloakRoleConverter;
 import org.junit.jupiter.api.Test;
@@ -34,6 +34,18 @@ public class InfoControllerTest {
     @Test
     void givenRequestIsAuthenticated_whenGetProtectedInfo_thenOk() throws Exception {
         mockMvc.perform(get("/api/info/protected").with(jwt()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void givenRequestIsAnonymous_whenGetProtectedMethodInfo_thenUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/info/protected-method"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void givenRequestIsAuthenticated_whenGetProtectedMethodInfo_thenOk() throws Exception {
+        mockMvc.perform(get("/api/info/protected-method").with(jwt()))
                 .andExpect(status().isOk());
     }
 
