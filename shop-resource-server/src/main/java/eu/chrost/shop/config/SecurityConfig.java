@@ -31,6 +31,7 @@ public class SecurityConfig {
     private Converter<Jwt, AbstractAuthenticationToken> grantedAuthoritiesExtractor() {
         JwtAuthenticationConverter jwtAuthenticationConverter =
                 new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setPrincipalClaimName("preferred_username");
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter
                 (new KeycloakRoleConverter());
         return jwtAuthenticationConverter;

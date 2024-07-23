@@ -469,7 +469,7 @@
     {
       "id": "0c3b6293-e4ef-4f27-a35d-1b654107c5be",
       "createdTimestamp": 1706217973978,
-      "username": "service-account-shop-admin-client",
+      "username": "shop-admin-client",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
@@ -486,7 +486,7 @@
     {
       "id": "7be18af6-2446-42fd-bc92-127595e02966",
       "createdTimestamp": 1706105919532,
-      "username": "service-account-shop-client",
+      "username": "shop-client",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
