@@ -16,7 +16,7 @@ class ProductInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         var productOne = Product.builder().id(1L).name("Product One").owner("shop-client").build();
-        var productTwo = Product.builder().id(2L).name("Product One").owner("shop-admin").build();
+        var productTwo = Product.builder().id(2L).name("Product One").owner("shop-admin-client").build();
         var productThree = Product.builder().id(3L).name("Product One").owner("marcin").build();
         var productFour = Product.builder().id(4L).name("Product One").owner("tomasz").build();
         productRepository.saveAll(List.of(productOne, productTwo, productThree, productFour));

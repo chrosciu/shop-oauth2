@@ -31,14 +31,32 @@ class ProductServiceTest {
 
     @Test
     @WithMockUser("shop-admin-client")
-    void givenRequestIsAnonymous_whenGetNotOwnProduct_thenUnauthorized() {
+    void givenRequestIsAuthenticated_whenGetNotOwnProduct_thenUnauthorized() {
         assertThatExceptionOfType(AccessDeniedException.class)
                 .isThrownBy(() -> productService.getProduct(1L));
     }
 
     @Test
     @WithMockUser("shop-client")
-    void givenRequestIsAnonymous_whenGetOwnProduct_thenOk() {
+    void givenRequestIsAuthenticated_whenGetOwnProduct_thenOk() {
         assertThat(productService.getProduct(1L)).extracting(Product::getId).isEqualTo(1L);
+    }
+
+    @Test
+    @WithAnonymousUser
+    void givenRequestIsAnonymous_whenGetAllProducts_thenEmptyList() {
+        assertThat(productService.getProducts()).isEmpty();
+    }
+
+    @Test
+    @WithMockUser("shop-client")
+    void givenRequestIsAuthenticated_whenGetAllProducts_thenSingleProduct() {
+        assertThat(productService.getProducts()).extracting(Product::getId).containsExactly(1L);
+    }
+
+    @Test
+    @WithMockUser(value = "shop-admin-client", roles = "admin")
+    void givenRequestIsAuthenticated_whenGetAllProducts_thenAllProducts() {
+        assertThat(productService.getProducts()).extracting(Product::getId).containsExactlyInAnyOrder(1L, 2L, 3L, 4L);
     }
 }

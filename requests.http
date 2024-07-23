@@ -42,3 +42,12 @@ Authorization: Bearer {{$auth.token("shop-users-client")}}
 GET http://localhost:8080/api/products/4
 Authorization: Bearer {{$auth.token("shop-users-client")}}
 
+### Get products for logged in user
+GET http://localhost:8080/api/products
+Authorization: Bearer {{$auth.token("shop-client")}}
+
+### Get all products (if logged user is admin)
+GET http://localhost:8080/api/products
+Authorization: Bearer {{$auth.token("shop-admin-client")}}
+
+
