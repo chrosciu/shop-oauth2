@@ -14,12 +14,14 @@ import java.util.List;
 class ProductService {
     private final ProductRepository productRepository;
 
-    @PostAuthorize("hasRole('admin') || returnObject.owner == authentication.name")
+    //@PostAuthorize("hasRole('admin') || returnObject.owner == authentication.name")
+    @PostAuthorize("hasRole('admin') || hasPermission(returnObject, 'read')")
     public Product getProduct(long id) {
         return productRepository.findById(id).get();
     }
 
-    @PostFilter("hasRole('admin') || filterObject.owner == authentication.name")
+    //@PostFilter("hasRole('admin') || filterObject.owner == authentication.name")
+    @PostFilter("hasRole('admin') || hasPermission(filterObject, 'read')")
     public List<Product> getProducts() {
         return productRepository.findAll();
     }

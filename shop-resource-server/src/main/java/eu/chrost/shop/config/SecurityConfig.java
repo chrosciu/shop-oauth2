@@ -3,6 +3,8 @@ package eu.chrost.shop.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,6 +37,13 @@ public class SecurityConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter
                 (new KeycloakRoleConverter());
         return jwtAuthenticationConverter;
+    }
+
+    @Bean
+    public MethodSecurityExpressionHandler expressionHandler(ShopPermissionEvaluator shopPermissionEvaluator) {
+        var expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(shopPermissionEvaluator);
+        return expressionHandler;
     }
 
 }
