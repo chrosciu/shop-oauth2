@@ -9,6 +9,3 @@ logging:
     org:
       springframework:
         security: TRACE
-product:
-  scheduler:
-    enabled: true
