@@ -14,7 +14,7 @@ import java.util.List;
 class ProductService {
     private final ProductRepository productRepository;
 
-    @PostAuthorize("returnObject.owner == authentication.name")
+    @PostAuthorize("hasRole('admin') || returnObject.owner == authentication.name")
     public Product getProduct(long id) {
         return productRepository.findById(id).get();
     }
