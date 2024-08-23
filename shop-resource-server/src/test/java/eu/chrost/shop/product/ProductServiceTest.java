@@ -65,4 +65,30 @@ class ProductServiceTest {
     void givenRequestIsAuthenticatedWithAdminRole_whenGetAllProducts_thenAllProducts() {
         assertThat(productService.getProducts()).extracting(Product::getId).containsExactlyInAnyOrder(1L, 2L, 3L, 4L);
     }
+
+    @Test
+    @WithAnonymousUser
+    void givenRequestIsAnonymous_whenGetProductsByOwner_thenUnauthorized() {
+        assertThatExceptionOfType(AccessDeniedException.class)
+                .isThrownBy(() -> productService.getProductsByOwner("shop-client"));
+    }
+
+    @Test
+    @WithMockUser("shop-client")
+    void givenRequestIsAuthenticated_whenGetProductsOwnedByHerself_thenListOfProducts() {
+        assertThat(productService.getProductsByOwner("shop-client")).extracting(Product::getId).containsExactly(1L);
+    }
+
+    @Test
+    @WithMockUser("shop-client")
+    void givenRequestIsAuthenticated_whenGetProductsByOwnedNotByHerself_thenUnauthorized() {
+        assertThatExceptionOfType(AccessDeniedException.class)
+                .isThrownBy(() -> productService.getProductsByOwner("shop-admin-client"));
+    }
+
+    @Test
+    @WithMockUser(value = "shop-admin-client", roles = "admin")
+    void givenRequestIsAuthenticatedWithAdminRole_whenGetProductsByOwnedNotByHerself_thenUnauthorized() {
+        assertThat(productService.getProductsByOwner("shop-client")).extracting(Product::getId).containsExactly(1L);
+    }
 }

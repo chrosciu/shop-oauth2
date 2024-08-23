@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,5 +26,10 @@ class ProductService {
     @PostFilter("hasRole('admin') || hasPermission(filterObject, 'read')")
     public List<Product> getProducts() {
         return productRepository.findAll();
+    }
+
+    @PreAuthorize("hasRole('admin') || #owner == authentication.name")
+    public List<Product> getProductsByOwner(@P("owner") String owner) {
+        return productRepository.findByOwner(owner);
     }
 }

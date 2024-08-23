@@ -23,4 +23,9 @@ class ProductController {
     public List<Product> getProducts() {
         return productService.getProducts();
     }
+
+    @GetMapping("/ownedBy/{owner}")
+    public List<Product> getProductsByOwner(@PathVariable("owner") String owner) {
+        return productService.getProductsByOwner(owner);
+    }
 }
