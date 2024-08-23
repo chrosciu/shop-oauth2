@@ -80,4 +80,21 @@ grant_type=authorization_code
 
 `docker container rm shop-auth-server`
   `
+### Method security - customizacja tokenów
 
+- aby wprowadzić method security należy najpierw zmodyfikować odczytywanie nazwy zalogowanego użytkownika (principal name) z tokena
+- domyślna implementacja zwróci nam bowiem nieprzyjazne w użyciu `id; dodatkowo będzie ono niespójne pomiędzy flowami client credentials i authorization code
+- dlatego też wymuszamy aby nazwa była brana z pola `principal_username`
+
+### `@PreAuthorize` / `@PostAuthorize`
+
+- jeden z najprostszych sposobów wprowadzenia method security
+- kontrola dostępu do metody odbywa się na podstawie wyrażenia przekazanego w adnotacji `@PreAuthorize` lub `@PostAuthorize`
+- w przypadku `@PreAuthorize` kontrola odbywa się **PRZED** zawołaniem metody (tj. metoda nie zawoła się jeśli nie użytkownik nie ma uprawnień)
+- w przypadku `@PostAuthorize` kontrola odbywa się **PO** zawołaniu metody (tj. metoda wykona się zawsze)
+- `@PostAuthorize` daje z kolei możliwość ewaluacji uprawnień pod kątem wartości zwróconej z metody
+- `@PreAuthorize` pozwala tylko na analizę argumentów wejściowych do metody
+- w `ProductService` zostały użyte obie adnotacje:
+    - `@PreAuthorize` - przy pobieraniu produktów należących do zadanego użytkownika sprawdzamy czy jest to ten sam użytkownik co zalogowany
+    - `@PostAuthorize` - przy pobieraniu produktu o danym `id` sprawdzamy czy pobrany produkt należy do zalogowanego użytkownika
+    - w obydwu przypadkach użytkownik mający rolę `admin` omija ww. reguły (ma dostęp do wszystkiego)
