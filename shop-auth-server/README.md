@@ -115,4 +115,17 @@ grant_type=authorization_code
    - kolekcja najpierw musi być pobrana w całości a dopiero potem odfiltrowana co może źle wpłynąć na wydajność
    - odfiltrowanie zwracanej kolekcji uniemożliwia implementację stronicowania
   
- 
+### Programowa ewaluacja reguł bezpieczeństwa za pomocą interfejsu `PermissionEvaluator`
+
+- wyrażenia SpEL używane do definiowania reguł w adnotacjach `@Pre/@Post Authorize/Filter`:
+    - są niejednokrotnie skomplikowane i trudne w zrozumieniu oraz podatne na błędy
+    - może też się okazać że są niewystarczające w bardziej skomplikowanych przypadkach
+- w takich przypadkach pomocne może okazać się implementacji interfejsu `PermissionEvaluator`
+- implementacje te umożliwiają definiowianie reguł udzielających odpowiedzi na jedno z dwóch pytań:
+    - czy zalogowany użytkownik ma prawo do wykonania `akcji` na danym `obiekcie`
+    - czy zalogowany użytkownik ma prawo do wykonania `akcji` na danym obiekcie o danym `typie` i `identyfikatorze`
+- jak można łatwo zauważyć, pytania te odpowiadają metodom interfejsu `PermissionEvaluator`
+- gdy obiekt `PermissionEvaluator` jest już dostępny w kontekście aplikacji Springa, to wówczas można zacząć używać wyrażeń `hasPermission`
+- przykłady użycia znajdują się w `ProductService`
+- w naszej aplikacji `PermissionEvaluator` został użyty w nieco bardziej zaawansowanej formie - z wykorzystaniem wzorca chain of responsibility
+- takie podejście umożliwi wpięcie kilku różnych implementacji interfejsu `PermissionEvalutor`, tak aby każda z nich dotyczyła innej domeny 
