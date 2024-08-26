@@ -129,3 +129,12 @@ grant_type=authorization_code
 - przykłady użycia znajdują się w `ProductService`
 - w naszej aplikacji `PermissionEvaluator` został użyty w nieco bardziej zaawansowanej formie - z wykorzystaniem wzorca chain of responsibility
 - takie podejście umożliwi wpięcie kilku różnych implementacji interfejsu `PermissionEvalutor`, tak aby każda z nich dotyczyła innej domeny 
+
+### Method security a przetwarzanie wsadowe
+
+- w przypadku przetwarzania wsadowego (np. zadania schedulowane) autoryzacja w zwykły sposób (np. poprzez token):
+   - jest trudna w implementacji (pomijamy bowiem całą warstwę HTTP / Web)
+   - jest niecelowa (zadania wsadowe nie są uruchamiane z zewnątrz systemu)
+- w związku z powyższym próby zawołania zabezpieczonych metod przy takim przetwarzaniu zakończą się błędem dostępu
+- najprostszym sposobem rozwiązania tego problemu jest ręczne wstrzyknięcie obiektu `Authentication` do `SecurityContext`
+- przykład znajduje się w `ProductScheduler` - jest tam zdefiniowane periodyczne zadanie wyświetlające wszystkie produkty
