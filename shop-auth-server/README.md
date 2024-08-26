@@ -98,3 +98,21 @@ grant_type=authorization_code
     - `@PreAuthorize` - przy pobieraniu produktów należących do zadanego użytkownika sprawdzamy czy jest to ten sam użytkownik co zalogowany
     - `@PostAuthorize` - przy pobieraniu produktu o danym `id` sprawdzamy czy pobrany produkt należy do zalogowanego użytkownika
     - w obydwu przypadkach użytkownik mający rolę `admin` omija ww. reguły (ma dostęp do wszystkiego)
+
+### `@PreFilter` / `@PostFilter`
+
+- adnotacje te zamiast kontrolować czy użytkownik ma prawo do wykonania danej metody modyfikują dane wprowadzane do lub zwracane z metody
+- `@PreFilter` pozwala na usunięcie z kolekcji przekazanej jako argument metody elementów, które nie spełniają wyrażenia przekazanego jako argument adnotacji
+- jeżeli metoda ma więcej niż 1 argument to należy dodatkowo podać, który z nich poddajemy filtracji
+- `@PostFilter` działa podobnie ale usuwa elementy z kolekcji zwróconej z metody
+- w przypadku obydwu adnotacji kolekcja, która ma być poddana filtracji musi implementować metodę `remove`
+- wspierane są tylko kolekcje należące do Java Collections
+- adnotacji nie można zastosować w przypadku tablic
+- w `ProductService` została użyta adnotacja `@PostFilter` -w celu odfiltrowania produktów nie należących do zalogowanego użytkownika (nie dotyczy admina :))
+- w wyrażeniu użyty jest obiekt `filterObject` reprezentujący pojedynczy element zwróconej kolekcji
+- jak widać wyrażenie ewaluowane jest oddzielnie dla każdego obiektu należącego do kolekcji
+- `@PreFilter` / `@PostFilter` pozwalają często na uproszczenie implementacji reguł bezpieczeństwa, jednakże mają też słabe strony:
+   - kolekcja najpierw musi być pobrana w całości a dopiero potem odfiltrowana co może źle wpłynąć na wydajność
+   - odfiltrowanie zwracanej kolekcji uniemożliwia implementację stronicowania
+  
+ 
