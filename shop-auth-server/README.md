@@ -83,7 +83,7 @@ grant_type=authorization_code
 ### Method security - customizacja tokenów
 
 - aby wprowadzić method security należy najpierw zmodyfikować odczytywanie nazwy zalogowanego użytkownika (principal name) z tokena
-- domyślna implementacja zwróci nam bowiem nieprzyjazne w użyciu `id; dodatkowo będzie ono niespójne pomiędzy flowami client credentials i authorization code
+- domyślna implementacja zwróci nam bowiem nieprzyjazne w użyciu `id`; dodatkowo będzie ono niespójne pomiędzy flowami client credentials i authorization code
 - dlatego też wymuszamy aby nazwa była brana z pola `principal_username`
 
 ### `@PreAuthorize` / `@PostAuthorize`
