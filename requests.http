@@ -16,7 +16,7 @@ GET http://localhost:8080/api/info/public
 
 ### Get protected info (requires any valid token)
 GET http://localhost:8080/api/info/protected
-Authorization: Bearer {{$auth.token("shop-users-client")}}
+Authorization: Bearer {{$auth.token("shop-client")}}
 
 ### Get protected method info (requires any valid token)
 GET http://localhost:8080/api/info/protected-method
@@ -24,7 +24,7 @@ Authorization: Bearer {{$auth.token("shop-client")}}
 
 ### Get admin user info (requires valid token containing admin role)
 GET http://localhost:8080/api/info/admin
-Authorization: Bearer {{$auth.token("shop-users-client")}}
+Authorization: Bearer {{$auth.token("shop-admin-client")}}
 
 ### Get product belonging to logged in user
 GET http://localhost:8080/api/products/1
